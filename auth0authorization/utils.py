@@ -5,9 +5,6 @@ import jwt
 import requests
 import os
 
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(find_dotenv())
 
 AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
 AUTH0_IDENTIFIER = os.getenv("AUTH0_IDENTIFIER")
@@ -20,8 +17,9 @@ def jwt_get_username_from_payload_handler(payload):
 
 
 def jwt_decode_token(token):
+
     header = jwt.get_unverified_header(token)
-    jwks = requests.get("https://{}/.well-known/jwks.json".format("YOUR_DOMAIN")).json()
+    jwks = requests.get("https://{}/.well-known/jwks.json".format(AUTH0_DOMAIN)).json()
     public_key = None
     for jwk in jwks["keys"]:
         if jwk["kid"] == header["kid"]:
@@ -30,11 +28,11 @@ def jwt_decode_token(token):
     if public_key is None:
         raise Exception("Public key not found.")
 
-    issuer = "https://{}/".format("YOUR_DOMAIN")
+    issuer = "https://{}/".format(AUTH0_DOMAIN)
     return jwt.decode(
         token,
         public_key,
-        audience="YOUR_API_IDENTIFIER",
+        audience=AUTH0_IDENTIFIER,
         issuer=issuer,
         algorithms=["RS256"],
     )

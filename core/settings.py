@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
+# from dotenv import load_dotenv, find_dotenv
+
+# load_dotenv(find_dotenv())
 
 
 import os
@@ -26,7 +27,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "!^#bkww1_qw@9hge&pm2_t1y1)&jkqf=3eu#_0ae&taa!q8y9@"
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -144,11 +144,14 @@ REST_FRAMEWORK = {
     ),
 }
 
+AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
+AUTH0_IDENTIFIER = os.getenv("AUTH0_IDENTIFIER")
+
 JWT_AUTH = {
     "JWT_PAYLOAD_GET_USERNAME_HANDLER": "auth0authorization.utils.jwt_get_username_from_payload_handler",
     "JWT_DECODE_HANDLER": "auth0authorization.utils.jwt_decode_token",
     "JWT_ALGORITHM": "RS256",
-    "JWT_AUDIENCE": "YOUR_API_IDENTIFIER",
-    "JWT_ISSUER": "https://YOUR_DOMAIN/",
+    "JWT_AUDIENCE": AUTH0_IDENTIFIER,
+    "JWT_ISSUER": "https://{}/".format(AUTH0_DOMAIN),
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
