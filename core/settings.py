@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
-# from dotenv import load_dotenv, find_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-# load_dotenv(find_dotenv())
+load_dotenv(find_dotenv())
 
 
 import os
@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     # third party apps
     "rest_framework",
     "corsheaders",
+    # apps
+    "boards.apps.BoardsConfig",
+    "lists.apps.ListsConfig",
 ]
 
 MIDDLEWARE = [

@@ -36,3 +36,15 @@ def jwt_decode_token(token):
         issuer=issuer,
         algorithms=["RS256"],
     )
+
+
+def get_user_info(request):
+    auth = request.META.get("HTTP_AUTHORIZATION", None)
+    parts = auth.split()
+    token = parts[1]
+    endpoint = "https://{}/userinfo".format(AUTH0_DOMAIN)
+    headers = {"Authorization": "Bearer " + token}
+    response = requests.get(endpoint, headers=headers)
+    json = response.json()
+    print(json["email"])
+    return json
