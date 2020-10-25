@@ -20,6 +20,7 @@ from .views import TestResponse
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/test", TestResponse.as_view()),
-    path("api/v1/boards/", include("boards.urls")),
-    path("api/v1/lists/", include("lists.urls")),
+    path("api/v1/", include("boards.urls")),
+    path("api/v1/boards/", include("lists.urls")),
+    path("api/v1/lists/", include("tasks.urls")),
 ]
