@@ -46,5 +46,5 @@ def get_user_info(request):
     headers = {"Authorization": "Bearer " + token}
     response = requests.get(endpoint, headers=headers)
     json = response.json()
-    print(json["email"])
+    print("response:" + str(response))
     return json

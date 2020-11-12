@@ -64,10 +64,11 @@ class ListDetail(APIView):
         list_obj = self.get_object(pk=pk, creatorEmail=creatorEmail)
         request.data["creatorEmail"] = creatorEmail
         request.data["board_id"] = boardId
+        print(boardId)
         serializer = ListSerializer(list_obj, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, boardId, pk, format=None):
